@@ -2,6 +2,7 @@
 import fs from 'fs'
 import trataErros from './erros/funcoesErro.js'
 import { contaPalavras } from './index.js'
+import { montaSaidaArquivo } from './helpers.js'
 
 // Captura todos os argumentos da linha de comando passados para o script
 const caminhoArquivo = process.argv
@@ -33,7 +34,7 @@ async function criaESalvaArquivo(listaPalavras, endereco) {
     const arquivoNovo = `${endereco}/resultado.txt`;
 
     // Converte a lista de palavras em uma string no formato JSON
-    const textoPalavras = JSON.stringify(listaPalavras);
+    const textoPalavras = montaSaidaArquivo(listaPalavras)
 
     try {
         // Tenta escrever a string no arquivo
