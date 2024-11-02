@@ -1,5 +1,5 @@
 // Função que trata erros relacionados à leitura de arquivos
-function trataErros(erro) {
+export default function trataErros(erro) {
     // Verifica se o erro é do tipo 'ENOENT', que indica que o arquivo não foi encontrado
     if (erro.code === 'ENOENT') {
         // Lança uma nova exceção com uma mensagem específica para arquivo não encontrado
@@ -10,5 +10,3 @@ function trataErros(erro) {
     }
 }
 
-// Exporta a função para uso em outros módulos
-module.exports = trataErros;
