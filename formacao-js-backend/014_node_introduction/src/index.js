@@ -1,18 +1,28 @@
 // Importa o módulo 'fs' para trabalhar com o sistema de arquivos
 const fs = require('fs')
 
+// Importa o módulo criado trataErros
+const trataErros = require('./erros/funcoesErro')
+
 // Captura todos os argumentos da linha de comando passados para o script
 const caminhoArquivo = process.argv
 
 // O terceiro argumento é o caminho do arquivo que queremos ler
 const link = caminhoArquivo[2]
 
-// Lê o arquivo especificado pelo caminho 'link' com a codificação 'UTF-8'
+// Lê o arquivo especificado pelo caminho 'link' usando a codificação 'UTF-8'
 fs.readFile(link, 'UTF-8', (erro, texto) => {
-    // Imprime os parágrafos já contabilizados
-    contaPalavras(texto)
+    // Tenta processar o texto lido e contabilizar as palavras
+    try {
+        // Se houver um erro na leitura do arquivo, lança uma exceção
+        if (erro) throw erro
+        // Chama a função 'contaPalavras' para contabilizar as palavras no texto
+        contaPalavras(texto)
+    } catch (erro) {
+        // Chama a função 'trataErros' para lidar com o erro ocorrido
+        trataErros(erro)
+    }
 })
-
 
 //Conta o número de vezes que uma palavra se repete em cada parágrafo
 function contaPalavras(texto){
@@ -32,15 +42,18 @@ function contaPalavras(texto){
     console.log(contagem)
 }
 
+//Separa o texto em parágrafos
 function extraiParagrafos(texto){
     // Converte o texto para minúsculas e divide-o em parágrafos usando a quebra de linha como delimitador
     return texto.toLowerCase().split('\n')
 }
 
+//Limpa os caracteres especiais da palavra
 function limpaPalavras(palavra){
     return palavra.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '')
 }
 
+//Recebe um texto e retorna um array de objetos com quantas vezes cada palavra apareceu no texto 
 function verificaPalavrasDuplicadas(texto) {
     // Divide o texto em palavras usando o espaço como delimitador e armazena em um array
     const listaPalavras = texto.split(' ')
