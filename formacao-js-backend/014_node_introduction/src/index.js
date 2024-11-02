@@ -28,6 +28,9 @@ function quebraEmParagrafos(texto) {
     console.log(contagem)
 }
 
+function limpaPalavras(palavra){
+    return palavra.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '')
+}
 
 function verificaPalavrasDuplicadas(texto) {
     // Divide o texto em palavras usando o espaço como delimitador e armazena em um array
@@ -40,9 +43,14 @@ function verificaPalavrasDuplicadas(texto) {
     listaPalavras.forEach(palavra => {
         // Incrementa a contagem da palavra no objeto 'resultado'
         // Se a palavra já existir, incrementa; caso contrário, inicia com 0 e soma 1
-        resultado[palavra] = (resultado[palavra] || 0) + 1
-    })
+        // Limpa as palavras com caracteres especiais
+        // Não colocar palavras como (e, de, com, ou, etc...)
 
+        if (palavra.length >= 3){
+            const palavraLimpa = limpaPalavras(palavra)
+            resultado[palavraLimpa] = (resultado[palavraLimpa] || 0) + 1
+        }
+    })
     return resultado
 }
 
