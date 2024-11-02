@@ -20,6 +20,7 @@ fs.readFile(link, 'UTF-8', (erro, texto) => {
         if (erro) throw erro
         // Chama a função 'contaPalavras' para contabilizar as palavras no texto
         const resultado = contaPalavras(texto) //Salva o objeto na variável resultado
+        // Chama a função que cria o arquivo com os dados coletados do texto
         criaESalvaArquivo(resultado, endereco)
     } catch (erro) {
         // Chama a função 'trataErros' para lidar com o erro ocorrido
@@ -27,13 +28,20 @@ fs.readFile(link, 'UTF-8', (erro, texto) => {
     }
 })
 
-async function criaESalvaArquivo(listaPalavras, endereco){
-    const arquivoNovo = `${endereco}/resultado.txt`
-    const textoPalavras = JSON.stringify(listaPalavras)
+async function criaESalvaArquivo(listaPalavras, endereco) {
+    // Define o caminho do novo arquivo como "resultado.txt" dentro do diretório fornecido
+    const arquivoNovo = `${endereco}/resultado.txt`;
+
+    // Converte a lista de palavras em uma string no formato JSON
+    const textoPalavras = JSON.stringify(listaPalavras);
+
     try {
-        await fs.promises.writeFile(arquivoNovo, textoPalavras)
-        console.log('Arquivo criado')
-    } catch (erro){
-        throw erro
+        // Tenta escrever a string no arquivo
+        await fs.promises.writeFile(arquivoNovo, textoPalavras);
+        // Se der certo, imprime uma mensagem de sucesso
+        console.log('Arquivo criado');
+    } catch (erro) {
+        // Se ocorrer um erro, lança o erro para ser tratado mais tarde
+        throw erro;
     }
 }
