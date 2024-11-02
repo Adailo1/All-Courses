@@ -15,12 +15,14 @@ fs.readFile(link, 'UTF-8', (erro, texto) => {
 
 // Função que divide um texto em parágrafos e conta as palavras duplicadas em cada um
 function quebraEmParagrafos(texto) {
-    // Converte o texto para minúsculas e divide em parágrafos usando a quebra de linha como delimitador
+    // Converte o texto para minúsculas e divide-o em parágrafos usando a quebra de linha como delimitador
     const paragrafo = texto.toLowerCase().split('\n')
 
     // Mapeia cada parágrafo para a contagem de palavras duplicadas
-    const contagem = paragrafo.map(paragrafo => {
-        // Chama a função 'verificaPalavrasDuplicadas' para contar as palavras no parágrafo atual
+    const contagem = paragrafo.flatMap(paragrafo => {
+        // Verifica se o parágrafo não está vazio; se estiver, retorna um array vazio
+        if (!paragrafo) return [] //flatMap achata as listas vazias, por isso esse retorno
+        // Chama a função 'verificaPalavrasDuplicadas' para contar as palavras duplicadas no parágrafo atual
         return verificaPalavrasDuplicadas(paragrafo)
     })
 
