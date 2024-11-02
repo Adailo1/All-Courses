@@ -10,24 +10,31 @@ const link = caminhoArquivo[2]
 // Lê o arquivo especificado pelo caminho 'link' com a codificação 'UTF-8'
 fs.readFile(link, 'UTF-8', (erro, texto) => {
     // Imprime os parágrafos já contabilizados
-    quebraEmParagrafos(texto)
+    contaPalavras(texto)
 })
 
-// Função que divide um texto em parágrafos e conta as palavras duplicadas em cada um
-function quebraEmParagrafos(texto) {
-    // Converte o texto para minúsculas e divide-o em parágrafos usando a quebra de linha como delimitador
-    const paragrafo = texto.toLowerCase().split('\n')
+
+//Conta o número de vezes que uma palavra se repete em cada parágrafo
+function contaPalavras(texto){
+    //Divide o texto em parágrafos e joga em um array
+    const paragrafo = extraiParagrafos(texto) 
 
     // Mapeia cada parágrafo para a contagem de palavras duplicadas
     const contagem = paragrafo.flatMap(paragrafo => {
         // Verifica se o parágrafo não está vazio; se estiver, retorna um array vazio
         if (!paragrafo) return [] //flatMap achata as listas vazias, por isso esse retorno
+        
         // Chama a função 'verificaPalavrasDuplicadas' para contar as palavras duplicadas no parágrafo atual
         return verificaPalavrasDuplicadas(paragrafo)
     })
 
     // Imprime a contagem de palavras duplicadas para cada parágrafo
     console.log(contagem)
+}
+
+function extraiParagrafos(texto){
+    // Converte o texto para minúsculas e divide-o em parágrafos usando a quebra de linha como delimitador
+    return texto.toLowerCase().split('\n')
 }
 
 function limpaPalavras(palavra){
