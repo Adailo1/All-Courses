@@ -3,6 +3,23 @@ import fs from 'fs'
 import trataErros from './erros/funcoesErro.js'
 import { contaPalavras } from './index.js'
 import { montaSaidaArquivo } from './helpers.js'
+import { Command } from 'commander'
+
+const program = new Command()
+
+program
+    .version('0.0.1')
+    .option('-t, --texto <string>', 'caminho do texto a ser processado')
+    .option('-d, --destino <string>', 'caminho da pasta onde salvar o arquivo de resultados')
+    .action(options => {
+        const { texto, destino } = options
+
+        if (!texto || !destino){
+            console.error('erro: favor inserir caminho de origem e destino')
+            program.help()
+            return
+        } 
+    })
 
 // Captura todos os argumentos da linha de comando passados para o script
 const caminhoArquivo = process.argv
