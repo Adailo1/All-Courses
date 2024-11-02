@@ -1,31 +1,5 @@
-// Importa o módulo 'fs' para trabalhar com o sistema de arquivos
-const fs = require('fs')
-
-// Importa o módulo criado trataErros
-const trataErros = require('./erros/funcoesErro')
-
-// Captura todos os argumentos da linha de comando passados para o script
-const caminhoArquivo = process.argv
-
-// O terceiro argumento é o caminho do arquivo que queremos ler
-const link = caminhoArquivo[2]
-
-// Lê o arquivo especificado pelo caminho 'link' usando a codificação 'UTF-8'
-fs.readFile(link, 'UTF-8', (erro, texto) => {
-    // Tenta processar o texto lido e contabilizar as palavras
-    try {
-        // Se houver um erro na leitura do arquivo, lança uma exceção
-        if (erro) throw erro
-        // Chama a função 'contaPalavras' para contabilizar as palavras no texto
-        contaPalavras(texto)
-    } catch (erro) {
-        // Chama a função 'trataErros' para lidar com o erro ocorrido
-        trataErros(erro)
-    }
-})
-
-//Conta o número de vezes que uma palavra se repete em cada parágrafo
-function contaPalavras(texto){
+//Conta o número de vezes que uma palavra se repete em cada parágrafo, exportando módulo
+export function contaPalavras(texto){
     //Divide o texto em parágrafos e joga em um array
     const paragrafo = extraiParagrafos(texto) 
 
@@ -39,7 +13,7 @@ function contaPalavras(texto){
     })
 
     // Imprime a contagem de palavras duplicadas para cada parágrafo
-    console.log(contagem)
+    return contagem
 }
 
 //Separa o texto em parágrafos
@@ -75,4 +49,3 @@ function verificaPalavrasDuplicadas(texto) {
     })
     return resultado
 }
-
