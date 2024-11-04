@@ -1,5 +1,6 @@
 import express from "express"
 import conectaDB from "./config/dbconnect.js"
+import livro from "./models/Livro.js"
 
 const conexao = await conectaDB()
 
@@ -14,20 +15,17 @@ conexao.once("open", () => {
 const app = express()
 app.use(express.json())
 
-function buscaLivro(id){
-    return livros.findIndex(livro => livro.id === Number(id))
-}
-
 app.get("/", (req, res) => {
     res.status(200).send("Curso de NodeJS")
 })
 
-app.get("/livros", (req, res) => { 
-    res.status(200).json(livros) //Não pode usar send() com dados como objetos
+app.get("/livros", async (req, res) => { 
+    const listaLivros = await livro.find({})
+    res.status(200).json(listaLivros) //Não pode usar send() com dados como objetos
 })
 
 app.get("/livros/:id", (req, res) => {
-    const index = buscaLivro(req.params.id)
+    const index = buscaLivro(req.params.id) 
     res.status(200).json(livros[index])
 })
 
