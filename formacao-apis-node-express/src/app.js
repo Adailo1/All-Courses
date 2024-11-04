@@ -1,12 +1,18 @@
 import express from "express"
+import conectaDB from "./config/dbconnect.js"
+
+const conexao = await conectaDB()
+
+conexao.on("error", (erro) => {
+    console.error("Erro de conexão", erro)
+})
+
+conexao.once("open", () => {
+    console.log("Conexão com o banco feita com sucesso")
+})
 
 const app = express()
 app.use(express.json())
-
-const livros = [
-    { id: 1, nome: 'Percy Jackson' },
-    { id: 2, nome: 'Meu sol de primavera' }
-]
 
 function buscaLivro(id){
     return livros.findIndex(livro => livro.id === Number(id))
@@ -43,3 +49,4 @@ app.delete("/livros/:id", (req, res) => {
 })
 
 export default app
+
