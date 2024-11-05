@@ -3,8 +3,22 @@ import livro from "../models/Livro.js"
 class LivroController {
     
     static async listarLivros(req, res){
-        const listaLivros = await livro.find({})
-        res.status(200).json(listaLivros) //Não pode usar send() com dados como objetos
+        try{
+            const listaLivros = await livro.find({})
+            res.status(200).json(listaLivros) //Não pode usar send() com dados como objetos
+        } catch (erro){
+            res.status(500).json({ message: `${erro.message} falha na requisição` })
+        }
+    }
+
+    static async listarLivroPorId(req, res){
+        try{
+            const id = req.params.id
+            const livroEncontrado = await livro.findById({id})
+            res.status(201).json(livroEncontrado) //Não pode usar send() com dados como objetos
+        } catch (erro){
+            res.status(500).json({ message: `${erro.message} falha na requisição` })
+        }
     }
 
     static async cadastrarLivro(req, res){
