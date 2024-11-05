@@ -17,7 +17,7 @@ class LivroController {
             const livroEncontrado = await livro.findById({id})
             res.status(201).json(livroEncontrado) //Não pode usar send() com dados como objetos
         } catch (erro){
-            res.status(500).json({ message: `${erro.message} falha na requisição` })
+            res.status(500).json({ message: `${erro.message} falha na requisição livro` })
         }
     }
 
@@ -27,6 +27,16 @@ class LivroController {
             res.status(201).json( { message: "Livro criado com sucesso", livro: novoLivro } )
         } catch(erro){
             res.status(500).json( { message: `${erro.message} - falha ao cadastrar livro` } )
+        }
+    }
+
+    static async atualizarLivro(req, res){
+        try{
+            const id = req.params.id
+            await livro.findByIdAndUpdate(id, req.body)
+            res.status(201).json({ message: "Livro atualizado" }) //Não pode usar send() com dados como objetos
+        } catch (erro){
+            res.status(500).json({ message: `${erro.message} falha na atualização livro` })
         }
     }
 }
